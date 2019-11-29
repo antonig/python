@@ -2,7 +2,7 @@
 # Antoni gual 2014
 
 
-from fractions import gcd
+from math import gcd
 from random import randint
 
 def brent(N):
