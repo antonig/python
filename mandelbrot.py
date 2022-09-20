@@ -2,7 +2,7 @@
 # by Antoni Gual Via 4/2015
 
 from tkinter import Tk, Canvas, PhotoImage,NW,mainloop 
-from time import clock
+from time import process_time
 
 def mandel_pixel(c):
   """ calculates the color index of the mandelbrot plane point passed in the arguments """
@@ -27,23 +27,28 @@ def mandelbrot(xa,xb,ya,yb,x,y):
     return" ".join((("{"+" ".join(clr[mandel_pixel(complex(i,j))] for i in xm))+"}" for j in ym))
 
 
+def main():
+  #window size
+  x=640
+  y=480
+  #corners of  the mandelbrot plan to display  
+  xa = -2.0; xb = 1.0
+  ya = -1.27; yb = 1.27
 
-#window size
-x=640
-y=480
-#corners of  the mandelbrot plan to display  
-xa = -2.0; xb = 1.0
-ya = -1.27; yb = 1.27
+  #Tkinter window
+  window = Tk()
+  canvas = Canvas(window, width = x, height = y, bg = "#000000");canvas.pack()
+  img = PhotoImage(width = x, height = y)
+  canvas.create_image((0, 0), image = img, state = "normal", anchor = NW)
 
-#Tkinter window
-window = Tk()
-canvas = Canvas(window, width = x, height = y, bg = "#000000");canvas.pack()
-img = PhotoImage(width = x, height = y)
-canvas.create_image((0, 0), image = img, state = "normal", anchor = NW)
+  #do the mandelbrot 
+  t1=process_time()
+  img.put(mandelbrot(xa,xb,ya,yb,x,y))
+  print(process_time()-t1, ' seconds')
 
-#do the mandelbrot 
-t1=clock()
-img.put(mandelbrot(xa,xb,ya,yb,x,y))
-print(clock()-t1, ' seconds')
+  mainloop()
 
-mainloop()
+
+if __name__ == "__main__":
+   main()
+   input()
